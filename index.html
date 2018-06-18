@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+   
+<body>
+  <div class="container">
+      <div class="jumbotron">
+          <p class="alert alert-info" id="drag-file">Drag your file here.</p>
+      </div>
+        <textarea id="txtarea" style="width:700px;height:350px;" class="form-control"></textarea><br/>
+        <button id="btn" class="btn btn-success">Save</button>
+  </div>
+  
+  
+  <script>
+    const {ipcRenderer}=require('electron')
+    let $ = require('jquery')
+    var dragFile= document.getElementById("drag-file");
+    dragFile.addEventListener('drop', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+  
+      for (let f of e.dataTransfer.files) {
+        if(f.type=="text/plain"){
+        console.log('The file(s) you dragged: ', f)
+        ipcRenderer.send('ondragstart', f.path)
+        }
+
+      }
+    });
+    dragFile.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    ipcRenderer.on('fileData', (event, data) => { 
+        $('#txtarea').text(data); 
+         }) 
+
+    $('#btn').on('click', () => {
+      let txtarea=$('#txtarea').val()
+      ipcRenderer.send('clickedbutton', txtarea)
+
+    }) 
+ 
+  </script>
+    
+</body>
+</html>

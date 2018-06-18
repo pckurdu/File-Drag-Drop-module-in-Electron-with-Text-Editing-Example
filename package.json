@@ -1,0 +1,17 @@
+{
+  "name": "darg-drop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "pckurdu"
+  ],
+  "author": "pckurdu",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
